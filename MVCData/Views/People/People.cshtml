@@ -1,0 +1,75 @@
+﻿@model MVCData.ViewModels.PeopleViewModel
+@using MVCData.ViewModels
+
+<h1>People Index</h1>
+
+<form asp-action="People" method="post">
+    <label>Sök efter namn eller stad</label>
+    <div>
+        <input type="text" name="searchedName" />
+    </div>
+    <br />
+    <input type="submit" name="Search" value="Sök" />
+</form>
+<br />
+@{ CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel();}
+
+<form asp-action="People" method="post">
+
+    <label asp-for="@createPersonViewModel.PersonName"></label>
+    <div>
+        <input type="text" asp-for="@createPersonViewModel.PersonName" />
+    </div>
+    <span asp-validation-for="@createPersonViewModel.PersonName" style="color: red;"></span>
+    <label asp-for="@createPersonViewModel.Phone"></label>
+    <div>
+        <input type="text" asp-for="@createPersonViewModel.Phone" />
+    </div>
+    <span asp-validation-for="@createPersonViewModel.Phone" style="color: red;"></span>
+    <label asp-for="@createPersonViewModel.City"></label>
+    <div>
+        <input type="text" asp-for="@createPersonViewModel.City" />
+    </div>
+    <span asp-validation-for="@createPersonViewModel.City" style="color: red;"></span>
+    <br />
+    <div>
+        <input type="submit" name="Create" value="Lägg till" />
+    </div>
+</form>
+<br />
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Namn</th>
+        <th>Telefon</th>
+        <th>Stad</th>
+        <th></th>
+    </tr>
+    @if (Model.AllPersonsList != null)
+    {
+        @foreach (var person in Model.AllPersonsList)
+        {
+            <tr>
+                <td>@person.PersonId</td>
+                <td>@person.Name</td>
+                <td>@person.PhoneNumber</td>
+                <td>@person.City</td>
+                <td><a asp-controller="People" asp-action="Delete" asp-route-id="@person.PersonId">Ta bort</a></td>
+            </tr>
+        }
+    }
+    else
+    {
+        @foreach (var person in Model.AllPersonsWithSpcificName)
+        {
+            <tr>
+                <td>@person.PersonId</td>
+                <td>@person.Name</td>
+                <td>@person.PhoneNumber</td>
+                <td>@person.City</td>
+                <td><a asp-controller="People" asp-action="Delete" asp-route-id="@person.PersonId">Ta bort</a></td>
+            </tr>
+        }
+    }
+</table>
