@@ -10,11 +10,19 @@ namespace MVCData.Controllers
 {
     public class PeopleController : Controller
     {
+        public static string addMessage = null;
+        public static string deleteMessage = null;
 
         public IActionResult People()
         {
             PeopleViewModel peopleViewModel = new PeopleViewModel();
             peopleViewModel.AllPersonsList = Person.AllPersons;
+
+            ViewBag.AddedPersonMessage = addMessage;
+            ViewBag.DeletedPersonMessage = deleteMessage;
+
+            addMessage = null;
+            deleteMessage = null;
 
             return View(peopleViewModel);
         }
@@ -40,6 +48,9 @@ namespace MVCData.Controllers
                 Person returnedPerson = createPerson.CreatePerson(createPersonViewModel.PersonName, createPersonViewModel.Phone, createPersonViewModel.City);
 
                     Person.AllPersons.Add(returnedPerson);
+
+                    addMessage = "Personen har lagts till!";
+
                     return RedirectToAction("People");
                 }
                 else
@@ -55,6 +66,8 @@ namespace MVCData.Controllers
         public IActionResult Delete(int id)
         {
             Person.DeletePerson(id);
+
+            deleteMessage = "Personen har raderats!";
 
             return RedirectToAction("People");
         }

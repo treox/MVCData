@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MVCData.Models.Person>
+
+<div class="row">
+    <div class="col-2" style="font-weight: bold">Id</div>
+    <div class="col-2" style="font-weight: bold">Namn</div>
+    <div class="col-2" style="font-weight: bold">Telefon</div>
+    <div class="col-2" style="font-weight: bold">Stad</div>
+    <div class="col-2" style="font-weight: bold"></div>
+</div>
+
+@foreach(var person in Model)
+ {
+     <div class="row">
+         <div class="col-2">@person.PersonId</div>
+         <div class="col-2">@person.Name</div>
+         <div class="col-2">@person.PhoneNumber</div>
+         <div class="col-2">@person.City</div>
+         <div class="col-2"><a asp-controller="People" asp-action="Delete" asp-route-id="@person.PersonId">Ta bort</a></div>
+     </div>
+ }

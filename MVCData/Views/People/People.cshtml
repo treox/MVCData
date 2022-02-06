@@ -3,6 +3,13 @@
 
 <h1>People Index</h1>
 
+<button onclick="getPeople()">People</button>
+<input id="id-field" type="number" name="idField" value="" />
+<button onclick="getPersonById()">Details</button>
+<button onclick="deletePersonById()">Delete</button>
+<br />
+<br />
+
 <form asp-action="People" method="post">
     <label>Sök efter namn eller stad</label>
     <div>
@@ -38,27 +45,36 @@
 </form>
 <br />
 
-<div class="container">
-    <div class="row">
-        <div class="col-2" style="font-weight: bold">Id</div>
-        <div class="col-2" style="font-weight: bold">Namn</div>
-        <div class="col-2" style="font-weight: bold">Telefon</div>
-        <div class="col-2" style="font-weight: bold">Stad</div>
-        <div class="col-2" style="font-weight: bold"></div>
-    </div>
+<div id="ajaxPeopleList" class="container">
 
-    @if (Model.AllPersonsList != null)
+    @if (ViewBag.AddedPersonMessage != null)
     {
-        @foreach (var person in Model.AllPersonsList)
-        {
-            <partial name="_PersonItem" model="person" />
-        }
+        <p>@ViewBag.AddedPersonMessage</p>
+    }
+    else if (ViewBag.DeletedPersonMessage != null)
+    {
+        <p>@ViewBag.DeletedPersonMessage</p>
     }
     else
     {
+        
+    }
+
+    @if (Model.AllPersonsWithSpcificName != null)
+    {
+        <div class="row">
+            <div class="col-2" style="font-weight: bold">Id</div>
+            <div class="col-2" style="font-weight: bold">Namn</div>
+            <div class="col-2" style="font-weight: bold">Telefon</div>
+            <div class="col-2" style="font-weight: bold">Stad</div>
+            <div class="col-2" style="font-weight: bold"></div>
+        </div>
+
         @foreach (var person in Model.AllPersonsWithSpcificName)
         {
             <partial name="_PersonItem" model="person" />
         }
     }
 </div>
+<br />
+
