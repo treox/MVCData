@@ -9,7 +9,7 @@ namespace MVCData.ViewModels
 {
     public class CreatePersonViewModel
     {
-        private static int tempId = 3;
+        //private static int tempId = 3;
         public int Id { get; set; }
         [Required(ErrorMessage = "Namn måste anges!")]
         [Display(Name = "Namn")]
@@ -27,11 +27,11 @@ namespace MVCData.ViewModels
 
         public Person CreatePerson(string name, string phone, string city)
         {
-            tempId = Person.NextId(tempId);
+            //tempId = Person.NextId(tempId);
 
             Person newPerson = new Person()
             {
-                PersonId = tempId,
+                //PersonId = tempId,
                 Name = name,
                 PhoneNumber = phone,
                 City = city

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MVCData.Data;
 using MVCData.Models;
 using MVCData.ViewModels;
 using System;
@@ -10,9 +11,16 @@ namespace MVCData.Controllers
 {
     public class AjaxController : Controller
     {
+        private readonly PeopleContext _peopleContext;
+
+        public AjaxController(PeopleContext peopleContext)
+        {
+            _peopleContext = peopleContext;
+        }
+
         public IActionResult PeopleList()
         {
-            List<Person> peopleList = Person.AllPersons;
+            List<Person> peopleList = _peopleContext.People.ToList();
 
             return PartialView("_PeopleList", peopleList);
         }
@@ -23,9 +31,9 @@ namespace MVCData.Controllers
             List<Person> personByIdList = new List<Person>();
 
             int index = 0;
-            foreach(Person person in Person.AllPersons)
+            foreach(Person person in _peopleContext.People)
             {
-                if (Person.AllPersons[index].PersonId == id)
+                if (person.PersonId == id)
                     personByIdList.Add(person);
 
                 index++;
@@ -38,17 +46,13 @@ namespace MVCData.Controllers
         {
             bool personFound = false;
 
-            int index = 0;
-            foreach (Person person in Person.AllPersons)
-            {
-                if (Person.AllPersons[index].PersonId == id)
-                {
-                    Person.DeletePerson(id);
-                    personFound = true;
-                    break;
-                }
+            var personToBeDeleted = _peopleContext.People.Find(id);
 
-                index++;
+            if(personToBeDeleted != null)
+            {
+                _peopleContext.People.Remove(personToBeDeleted);
+                _peopleContext.SaveChanges();
+                personFound = true;
             }
 
             if(personFound == true)

@@ -1,4 +1,4 @@
-﻿@model MVCData.ViewModels.PeopleViewModel
+﻿@model IEnumerable<MVCData.Models.Person> 
 @using MVCData.ViewModels
 
 <h1>People Index</h1>
@@ -60,7 +60,7 @@
         
     }
 
-    @if (Model.AllPersonsWithSpcificName != null)
+    @if (Model != null)
     {
         <div class="row">
             <div class="col-2" style="font-weight: bold">Id</div>
@@ -70,7 +70,7 @@
             <div class="col-2" style="font-weight: bold"></div>
         </div>
 
-        @foreach (var person in Model.AllPersonsWithSpcificName)
+        @foreach (var person in Model)
         {
             <partial name="_PersonItem" model="person" />
         }
