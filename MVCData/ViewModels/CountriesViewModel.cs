@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace MVCData.ViewModels
 {
-    public class PeopleViewModel
+    public class CountriesViewModel
     {
-        public List<Person> AllPersonsList { get; set; }
-
-        public List<Person> AllPersonsWithSpecificNameOrCity { get; set; }
+        public List<Country> AllCountriesList { get; set; }
     }
 }

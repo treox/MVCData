@@ -1,7 +1,7 @@
-﻿@model IEnumerable<MVCData.Models.Person> 
+﻿@model MVCData.ViewModels.PeopleViewModel
 @using MVCData.ViewModels
 
-<h1>People Index</h1>
+<h1>Personer</h1>
 
 <button onclick="getPeople()">People</button>
 <input id="id-field" type="number" name="idField" value="" />
@@ -33,11 +33,6 @@
         <input type="text" asp-for="@createPersonViewModel.Phone" />
     </div>
     <span asp-validation-for="@createPersonViewModel.Phone" style="color: red;"></span>
-    <label asp-for="@createPersonViewModel.City"></label>
-    <div>
-        <input type="text" asp-for="@createPersonViewModel.City" />
-    </div>
-    <span asp-validation-for="@createPersonViewModel.City" style="color: red;"></span>
     <br />
     <div>
         <input type="submit" name="Create" value="Lägg till" />
@@ -57,7 +52,7 @@
     }
     else
     {
-        
+
     }
 
     @if (Model != null)
@@ -70,9 +65,25 @@
             <div class="col-2" style="font-weight: bold"></div>
         </div>
 
-        @foreach (var person in Model)
+        @if (Model.AllPersonsList != null)
         {
-            <partial name="_PersonItem" model="person" />
+            @foreach (var person in Model.AllPersonsList)
+            {
+                <partial name="_PersonItem" model="person" />
+            }
+        }
+        else if (Model.AllPersonsWithSpecificNameOrCity != null)
+        {
+            @foreach (var person in Model.AllPersonsWithSpecificNameOrCity)
+            {
+                <partial name="_PersonItem" model="person" />
+            }
+        }
+        else
+        {
+            <div class="row">
+                <div>Inga personer hittades!</div>
+            </div>
         }
     }
 </div>

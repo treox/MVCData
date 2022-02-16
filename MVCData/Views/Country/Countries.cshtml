@@ -1,0 +1,19 @@
+﻿@model MVCData.ViewModels.CountriesViewModel
+
+<h1>Länder</h1>
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-2" style="font-weight: bold">Id</div>
+        <div class="col-2" style="font-weight: bold">Namn</div>
+    </div>
+
+    @foreach (var country in Model.AllCountriesList)
+    {
+        <div class="row">
+            <div class="col-2">@country.CountryId</div>
+            <div class="col-2">@country.CountryName</div>
+        </div>
+    }
+}

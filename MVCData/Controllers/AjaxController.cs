@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCData.Data;
 using MVCData.Models;
 using MVCData.ViewModels;
@@ -20,7 +21,7 @@ namespace MVCData.Controllers
 
         public IActionResult PeopleList()
         {
-            List<Person> peopleList = _peopleContext.People.ToList();
+            List<Person> peopleList = _peopleContext.People.Include(c => c.City).ToList();
 
             return PartialView("_PeopleList", peopleList);
         }
@@ -31,11 +32,12 @@ namespace MVCData.Controllers
             List<Person> personByIdList = new List<Person>();
 
             int index = 0;
-            foreach(Person person in _peopleContext.People)
+            foreach(Person person in _peopleContext.People.Include(c => c.City))
             {
                 if (person.PersonId == id)
+                {
                     personByIdList.Add(person);
-
+                }
                 index++;
             }
 

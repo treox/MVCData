@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVCData.Data;
 using MVCData.Models;
 using MVCData.ViewModels;
@@ -23,7 +24,9 @@ namespace MVCData.Controllers
 
         public IActionResult People()
         {
-            List<Person> persons = _peopleContext.People.ToList();
+            PeopleViewModel peopleViewModel = new PeopleViewModel();
+
+            peopleViewModel.AllPersonsList = _peopleContext.People.Include(c => c.City).ToList();
 
             ViewBag.AddedPersonMessage = addMessage;
             ViewBag.DeletedPersonMessage = deleteMessage;
@@ -31,23 +34,29 @@ namespace MVCData.Controllers
             addMessage = null;
             deleteMessage = null;
 
-            return View(persons);
+            return View(peopleViewModel);
         }
 
         [HttpPost]
         public IActionResult People(CreatePersonViewModel createPersonViewModel, string searchedName)
         {
+            PeopleViewModel peopleViewModel = new PeopleViewModel();
+
             if(searchedName != null){
 
-                var foundPersonByName = _peopleContext.People.Where(n => n.Name == searchedName).ToList();
-                var foundPersonByCity = _peopleContext.People.Where(c => c.City == searchedName).ToList();
+                var foundPersonByName = _peopleContext.People.Include(c => c.City).Where(n => n.Name == searchedName).ToList();
+                var foundPersonByCity = _peopleContext.People.Include(c => c.City).Where(pc => pc.City.CityName == searchedName).ToList();
                 if(foundPersonByName.Count > 0)
                 {
-                    return View(foundPersonByName);
+                    peopleViewModel.AllPersonsWithSpecificNameOrCity = foundPersonByName;
+
+                    return View(peopleViewModel);
                 }
                 else if(foundPersonByCity.Count > 0)
                 {
-                    return View(foundPersonByCity);
+                    peopleViewModel.AllPersonsWithSpecificNameOrCity = foundPersonByCity;
+
+                    return View(peopleViewModel);
                 }
                 else
                 {
@@ -60,7 +69,7 @@ namespace MVCData.Controllers
                 if (ModelState.IsValid)
                 {
                     CreatePersonViewModel createPerson = new CreatePersonViewModel();
-                    Person returnedPerson = createPerson.CreatePerson(createPersonViewModel.PersonName, createPersonViewModel.Phone, createPersonViewModel.City);
+                    Person returnedPerson = createPerson.CreatePerson(createPersonViewModel.PersonName, createPersonViewModel.Phone);
 
                     _peopleContext.People.Add(returnedPerson);
                     _peopleContext.SaveChanges();
@@ -71,9 +80,9 @@ namespace MVCData.Controllers
                 }
                 else
                 {
-                    List<Person> persons = _peopleContext.People.ToList();
+                    peopleViewModel.AllPersonsList = _peopleContext.People.Include(c => c.City).ToList();
 
-                    return View(persons);
+                    return View(peopleViewModel);
                 }
             }
         }

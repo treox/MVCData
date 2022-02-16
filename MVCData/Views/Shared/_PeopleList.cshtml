@@ -14,7 +14,7 @@
          <div class="col-2">@person.PersonId</div>
          <div class="col-2">@person.Name</div>
          <div class="col-2">@person.PhoneNumber</div>
-         <div class="col-2">@person.City</div>
+         <div class="col-2">@person.City.CityName</div>
          <div class="col-2"><a asp-controller="People" asp-action="Delete" asp-route-id="@person.PersonId">Ta bort</a></div>
      </div>
  }

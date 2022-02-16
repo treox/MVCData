@@ -1,0 +1,21 @@
+﻿@model MVCData.ViewModels.CitiesViewModel
+
+<h1>Städer</h1>
+
+@if (Model != null)
+{
+<div class="row">
+    <div class="col-2" style="font-weight: bold">Id</div>
+    <div class="col-2" style="font-weight: bold">Namn</div>
+    <div class="col-2" style="font-weight: bold">Land</div>
+</div>
+
+    @foreach (var city in Model.AllCitiesList)
+    {
+        <div class="row">
+            <div class="col-2">@city.CityId</div>
+            <div class="col-2">@city.CityName</div>
+            <div class="col-2">@city.Country.CountryName</div>
+        </div>
+    }
+}
