@@ -1,0 +1,16 @@
+﻿@model MVCData.ViewModels.CountriesViewModel
+
+@{
+    ViewData["CountriesToBeDeleted"] = new SelectList(Model.AllCountriesList, "CountryId", "CountryName");
+}
+
+<form asp-action="Delete" method="post">
+    <div>
+        <label asp-for="@Model.CountryId">Länder</label>
+        <select asp-for="@Model.CountryId" asp-items="ViewBag.CountriesToBeDeleted"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="DeleteCountry" value="Ta bort" />
+    </div>
+</form>

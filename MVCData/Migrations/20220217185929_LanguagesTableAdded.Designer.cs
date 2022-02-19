@@ -3,14 +3,16 @@ using MVCData.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVCData.Migrations
 {
     [DbContext(typeof(PeopleContext))]
-    partial class PeopleContextModelSnapshot : ModelSnapshot
+    [Migration("20220217185929_LanguagesTableAdded")]
+    partial class LanguagesTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,23 +114,6 @@ namespace MVCData.Migrations
                     b.HasKey("LanguageId");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            LanguageId = 1,
-                            LanguageName = "Svenska"
-                        },
-                        new
-                        {
-                            LanguageId = 2,
-                            LanguageName = "Amerikanska"
-                        },
-                        new
-                        {
-                            LanguageId = 3,
-                            LanguageName = "Australienska"
-                        });
                 });
 
             modelBuilder.Entity("MVCData.Models.Person", b =>
@@ -217,38 +202,6 @@ namespace MVCData.Migrations
                     b.HasIndex("PersonRefId");
 
                     b.ToTable("LanguageOwner");
-
-                    b.HasData(
-                        new
-                        {
-                            PersonLanguageId = 1,
-                            LanguageRefId = 1,
-                            PersonRefId = 1
-                        },
-                        new
-                        {
-                            PersonLanguageId = 2,
-                            LanguageRefId = 2,
-                            PersonRefId = 2
-                        },
-                        new
-                        {
-                            PersonLanguageId = 3,
-                            LanguageRefId = 2,
-                            PersonRefId = 3
-                        },
-                        new
-                        {
-                            PersonLanguageId = 4,
-                            LanguageRefId = 3,
-                            PersonRefId = 4
-                        },
-                        new
-                        {
-                            PersonLanguageId = 5,
-                            LanguageRefId = 3,
-                            PersonRefId = 5
-                        });
                 });
 
             modelBuilder.Entity("MVCData.Models.City", b =>

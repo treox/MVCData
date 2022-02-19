@@ -14,6 +14,8 @@ namespace MVCData.Data
         public DbSet<Person> People { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<PersonLanguage> PersonLanguages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -66,6 +68,27 @@ namespace MVCData.Data
                 PhoneNumber = "00356446794",
                 CityId = 3
             });
+
+            modelBuilder.Entity<Language>().HasData(new Language { 
+                LanguageId = 1,
+                LanguageName = "Svenska"
+            });
+            modelBuilder.Entity<Language>().HasData(new Language
+            {
+                LanguageId = 2,
+                LanguageName = "Amerikanska"
+            });
+            modelBuilder.Entity<Language>().HasData(new Language
+            {
+                LanguageId = 3,
+                LanguageName = "Australienska"
+            });
+
+            modelBuilder.Entity<PersonLanguage>().HasData(new PersonLanguage { PersonLanguageId = 1, PersonRefId = 1, LanguageRefId = 1 });
+            modelBuilder.Entity<PersonLanguage>().HasData(new PersonLanguage { PersonLanguageId = 2, PersonRefId = 2, LanguageRefId = 2 });
+            modelBuilder.Entity<PersonLanguage>().HasData(new PersonLanguage { PersonLanguageId = 3, PersonRefId = 3, LanguageRefId = 2 });
+            modelBuilder.Entity<PersonLanguage>().HasData(new PersonLanguage { PersonLanguageId = 4, PersonRefId = 4, LanguageRefId = 3 });
+            modelBuilder.Entity<PersonLanguage>().HasData(new PersonLanguage { PersonLanguageId = 5, PersonRefId = 5, LanguageRefId = 3 });
         }
     }
 }

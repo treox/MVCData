@@ -1,14 +1,46 @@
 ﻿@model MVCData.ViewModels.CitiesViewModel
 
+@{ 
+    ViewData["Country"] = new SelectList(Model.AllCountriesList, "CountryId", "CountryName");
+}
+
 <h1>Städer</h1>
+
+<div>
+    <a asp-controller="City" asp-action="Delete">Ta bort stad</a>
+</div>
+<br />
+
+@if(ViewBag.deleteAddCityMsg != null)
+{
+    <p>@ViewBag.deleteAddCityMsg</p>
+}
+
+<form method="post">
+    <label asp-for="@Model.CityName"></label>
+    <div>
+        <input type="text" asp-for="@Model.CityName" />
+    </div>
+    <span asp-validation-for="@Model.CityName" style="color: red;"></span>
+    <br />
+    <div>
+        <label asp-for="@Model.CountryId">Länder</label>
+        <select asp-for="@Model.CountryId" asp-items="ViewBag.Country"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="Create" value="Lägg till" />
+    </div>
+</form>
+<br />
 
 @if (Model != null)
 {
-<div class="row">
-    <div class="col-2" style="font-weight: bold">Id</div>
-    <div class="col-2" style="font-weight: bold">Namn</div>
-    <div class="col-2" style="font-weight: bold">Land</div>
-</div>
+    <div class="row">
+        <div class="col-2" style="font-weight: bold">Id</div>
+        <div class="col-2" style="font-weight: bold">Namn</div>
+        <div class="col-2" style="font-weight: bold">Land</div>
+    </div>
 
     @foreach (var city in Model.AllCitiesList)
     {

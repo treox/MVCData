@@ -27,6 +27,8 @@ namespace MVCData.Controllers
             PeopleViewModel peopleViewModel = new PeopleViewModel();
 
             peopleViewModel.AllPersonsList = _peopleContext.People.Include(c => c.City).ToList();
+            peopleViewModel.AllCitiesList = _peopleContext.Cities.Include(c => c.Country).ToList();
+            peopleViewModel.AllLanguagesList = _peopleContext.Languages.ToList();
 
             ViewBag.AddedPersonMessage = addMessage;
             ViewBag.DeletedPersonMessage = deleteMessage;
@@ -38,7 +40,7 @@ namespace MVCData.Controllers
         }
 
         [HttpPost]
-        public IActionResult People(CreatePersonViewModel createPersonViewModel, string searchedName)
+        public IActionResult People(PeopleViewModel inputViewModel, string searchedName)
         {
             PeopleViewModel peopleViewModel = new PeopleViewModel();
 
@@ -49,12 +51,14 @@ namespace MVCData.Controllers
                 if(foundPersonByName.Count > 0)
                 {
                     peopleViewModel.AllPersonsWithSpecificNameOrCity = foundPersonByName;
+                    peopleViewModel.AllCitiesList = _peopleContext.Cities.Include(c => c.Country).ToList();
 
                     return View(peopleViewModel);
                 }
                 else if(foundPersonByCity.Count > 0)
                 {
                     peopleViewModel.AllPersonsWithSpecificNameOrCity = foundPersonByCity;
+                    peopleViewModel.AllCitiesList = _peopleContext.Cities.Include(c => c.Country).ToList();
 
                     return View(peopleViewModel);
                 }
@@ -68,8 +72,7 @@ namespace MVCData.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    CreatePersonViewModel createPerson = new CreatePersonViewModel();
-                    Person returnedPerson = createPerson.CreatePerson(createPersonViewModel.PersonName, createPersonViewModel.Phone);
+                    Person returnedPerson = peopleViewModel.CreatePerson(inputViewModel.PersonName, inputViewModel.Phone, inputViewModel.CityId);
 
                     _peopleContext.People.Add(returnedPerson);
                     _peopleContext.SaveChanges();
@@ -81,6 +84,7 @@ namespace MVCData.Controllers
                 else
                 {
                     peopleViewModel.AllPersonsList = _peopleContext.People.Include(c => c.City).ToList();
+                    peopleViewModel.AllCitiesList = _peopleContext.Cities.Include(c => c.Country).ToList();
 
                     return View(peopleViewModel);
                 }

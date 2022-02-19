@@ -1,5 +1,8 @@
 ﻿@model MVCData.ViewModels.PeopleViewModel
-@using MVCData.ViewModels
+
+@{ 
+    ViewData["City"] = new SelectList(Model.AllCitiesList, "CityId", "CityName");
+}
 
 <h1>Personer</h1>
 
@@ -19,20 +22,25 @@
     <input type="submit" name="Search" value="Sök" />
 </form>
 <br />
-@{ CreatePersonViewModel createPersonViewModel = new CreatePersonViewModel();}
 
 <form asp-action="People" method="post">
 
-    <label asp-for="@createPersonViewModel.PersonName"></label>
+    <label asp-for="@Model.PersonName"></label>
     <div>
-        <input type="text" asp-for="@createPersonViewModel.PersonName" />
+        <input type="text" asp-for="@Model.PersonName" />
     </div>
-    <span asp-validation-for="@createPersonViewModel.PersonName" style="color: red;"></span>
-    <label asp-for="@createPersonViewModel.Phone"></label>
+    <span asp-validation-for="@Model.PersonName" style="color: red;"></span>
+    <br />
+    <label asp-for="@Model.Phone"></label>
     <div>
-        <input type="text" asp-for="@createPersonViewModel.Phone" />
+        <input type="text" asp-for="@Model.Phone" />
     </div>
-    <span asp-validation-for="@createPersonViewModel.Phone" style="color: red;"></span>
+    <span asp-validation-for="@Model.Phone" style="color: red;"></span>
+    <br />
+    <div>
+        <label asp-for="@Model.CityId">Städer</label>
+        <select asp-for="@Model.CityId" asp-items="ViewBag.City"></select>
+    </div>
     <br />
     <div>
         <input type="submit" name="Create" value="Lägg till" />

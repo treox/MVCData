@@ -1,0 +1,16 @@
+﻿@model MVCData.ViewModels.LanguagesViewModel
+
+@{ 
+    ViewData["LanguagesToBeDeleted"] = new SelectList(Model.AllLanguagesList, "LanguageId", "LanguageName");
+}
+
+<form asp-action="Delete" method="post">
+    <div>
+        <label asp-for="@Model.LanguageId">Språk</label>
+        <select asp-for="@Model.LanguageId" asp-items="ViewBag.LanguagesToBeDeleted"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="DeleteLanguage" value="Ta bort" />
+    </div>
+</form>

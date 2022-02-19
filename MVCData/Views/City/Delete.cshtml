@@ -1,0 +1,16 @@
+﻿@model MVCData.ViewModels.CitiesViewModel
+
+@{
+    ViewData["CitiesToBeDeleted"] = new SelectList(Model.AllCitiesList, "CityId", "CityName");
+}
+
+<form asp-action="Delete" method="post">
+    <div>
+        <label asp-for="@Model.CityId">Städer</label>
+        <select asp-for="@Model.CityId" asp-items="ViewBag.CitiesToBeDeleted"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="DeleteCity" value="Ta bort" />
+    </div>
+</form>

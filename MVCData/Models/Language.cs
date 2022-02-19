@@ -7,21 +7,15 @@ using System.Threading.Tasks;
 
 namespace MVCData.Models
 {
-    [Table("People")]
-    public class Person
+    [Table("Languages")]
+    public class Language
     {
         [Key]
-        public int PersonId { get; set; }
+        public int LanguageId { get; set; }
         [Required]
-        [Column("Namn")]
+        [Column("Språk")]
         [StringLength(30)]
-        public string Name { get; set; }
-        [Required]
-        [Column("Telefonnummer")]
-        [StringLength(25)]
-        public string PhoneNumber { get; set; }
-        public int CityId { get; set; }
-        public City City { get; set; }
+        public string LanguageName { get; set; }
         public List<PersonLanguage> PersonLanguages { get; set; }
     }
 }

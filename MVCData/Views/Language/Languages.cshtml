@@ -1,0 +1,81 @@
+﻿@model MVCData.ViewModels.LanguagesViewModel
+
+@{
+    ViewData["Person"] = new SelectList(Model.AllPersonsList, "PersonId", "Name");
+    ViewData["Language"] = new SelectList(Model.AllLanguagesList, "LanguageId", "LanguageName");
+}
+
+<h1>Språk</h1>
+
+<div>
+    <a asp-controller="Language" asp-action="Delete">Ta bort språk</a>
+</div>
+<br />
+
+@if(ViewBag.deleteAddLanguageMsg != null)
+{
+    <p>@ViewBag.deleteAddLanguageMsg</p>
+}
+
+<form asp-action="Languages" method="post">
+    <label asp-for="@Model.LanguageName"></label>
+    <div>
+        <input type="text" asp-for="@Model.LanguageName" />
+    </div>
+    <span asp-validation-for="@Model.LanguageName" style="color: red;"></span>
+    <br />
+    <div>
+        <input type="submit" name="CreateLanguage" value="Lägg till" />
+    </div>
+</form>
+<br />
+
+<form asp-action="Languages" method="post">
+    <div>
+        <label asp-for="@Model.PersonId">Person</label>
+        <select asp-for="@Model.PersonId" asp-items="ViewBag.Person"></select>
+    </div>
+    <br />
+    <div>
+        <label asp-for="@Model.LanguageId">Språk</label>
+        <select asp-for="@Model.LanguageId" asp-items="ViewBag.Language"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="CreatePersonLanguage" value="Lägg till" />
+    </div>
+</form>
+<br />
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-2" style="font-weight: bold">Id</div>
+        <div class="col-2" style="font-weight: bold">Namn</div>
+    </div>
+
+    @foreach (var person in Model.AllPersonsList)
+    {
+        <div class="row">
+            <div class="col-2">@person.PersonId</div>
+            <div class="col-2">@person.Name</div>
+        </div>
+
+        <div style="font-weight: bold">Språk för @person.Name:</div>
+        @foreach (var personLanguage in Model.AllPersonLanguagesList)
+        {
+            @if (person.PersonId == personLanguage.PersonRefId)
+            {
+                int IdOfLanguage = personLanguage.LanguageRefId;
+
+                @foreach (var language in Model.AllLanguagesList)
+                {
+                    if (IdOfLanguage == language.LanguageId)
+                    {
+                        <div>@language.LanguageName</div>
+                    }
+                }
+            }
+        }
+    }
+}

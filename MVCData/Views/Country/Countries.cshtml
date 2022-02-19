@@ -2,6 +2,29 @@
 
 <h1>Länder</h1>
 
+<div>
+    <a asp-controller="Country" asp-action="Delete">Ta bort land</a>
+</div>
+<br />
+
+@if (ViewBag.deleteAddCountryMsg != null)
+{
+    <p>@ViewBag.deleteAddCountryMsg</p>
+}
+
+<form asp-action="Countries" method="post">
+    <label asp-for="@Model.CountryName"></label>
+    <div>
+        <input type="text" asp-for="@Model.CountryName" />
+    </div>
+    <span asp-validation-for="@Model.CountryName" style="color: red;"></span>
+    <br />
+    <div>
+        <input type="submit" name="CreateCountry" value="Lägg till" />
+    </div>
+</form>
+<br />
+
 @if (Model != null)
 {
     <div class="row">
