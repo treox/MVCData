@@ -22,6 +22,8 @@ namespace MVCData.ViewModels
         public int CityId { get; set; }
         public int LanguageId { get; set; }
 
+        public Person Person { get; set; }
+
         public List<Person> AllPersonsList { get; set; }
         public List<Person> AllPersonsWithSpecificNameOrCity { get; set; }
         public List<City> AllCitiesList { get; set; }

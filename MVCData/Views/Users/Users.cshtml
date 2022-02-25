@@ -1,0 +1,30 @@
+﻿@model MVCData.ViewModels.UsersViewModel
+
+<table>
+    <tr>
+        <th>Förnamn</th>
+        <th>Efternamn</th>
+        <th>Epost</th>
+        <th>Födelsedag</th>
+        <th>Roll</th>
+    </tr>
+
+    @foreach (var user in Model.AllUsersList)
+    {
+    <tr>
+        <td>@user.FirstName</td>
+        <td>@user.LastName</td>
+        <td>@user.Email</td>
+        <td>@user.BirthDate.ToShortDateString()</td>
+        @foreach(var userRole in Model.AllUserRolesList)
+        {
+            @if(userRole.UserId == user.Id)
+            {
+                string foundId = userRole.RoleId;
+                var foundRole = Model.AllRolesList.Find(i => i.Id == foundId);
+                <td>@foundRole.Name</td>
+            }
+        }
+    </tr>
+    }
+</table>

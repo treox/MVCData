@@ -1,0 +1,31 @@
+﻿@model MVCData.ViewModels.PeopleViewModel
+
+@{ 
+    ViewData["EditCity"] = new SelectList(Model.AllCitiesList, "CityId", "CityName");
+}
+
+<form asp-action="Edit" method="post">
+    <div>
+        <input type="number" asp-for="@Model.Id" value="@Model.Person.PersonId" hidden />
+    </div>
+    <label asp-for="@Model.PersonName"></label>
+    <div>
+        <input type="text" asp-for="@Model.PersonName" value="@Model.Person.Name" />
+    </div>
+    <span asp-validation-for="@Model.PersonName" style="color: red;"></span>
+    <br />
+    <label asp-for="@Model.Phone"></label>
+    <div>
+        <input type="text" asp-for="@Model.Phone" value="@Model.Person.PhoneNumber"/>
+    </div>
+    <span asp-validation-for="@Model.Phone" style="color: red;"></span>
+    <br />
+    <div>
+        <label asp-for="@Model.CityId">Städer</label>
+        <select asp-for="@Model.CityId" asp-items="ViewBag.EditCity"></select>
+    </div>
+    <br />
+    <div>
+        <input type="submit" name="Edit" value="Ändra" />
+    </div>
+</form>

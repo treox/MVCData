@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCData.Data;
 using MVCData.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVCData.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     public class PeopleController : Controller
     {
         public static string addMessage = null;
@@ -88,6 +90,48 @@ namespace MVCData.Controllers
 
                     return View(peopleViewModel);
                 }
+            }
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var personToBeEdited = _peopleContext.People.Find(id);
+
+            PeopleViewModel peopleViewModel = new PeopleViewModel();
+
+            peopleViewModel.Person = personToBeEdited;
+            peopleViewModel.AllCitiesList = _peopleContext.Cities.ToList();
+
+            return View(peopleViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(PeopleViewModel inputEditModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var personToBeEdited = _peopleContext.People.Find(inputEditModel.Id);
+
+                personToBeEdited.Name = inputEditModel.PersonName;
+                personToBeEdited.PhoneNumber = inputEditModel.Phone;
+                personToBeEdited.CityId = inputEditModel.CityId;
+
+                _peopleContext.People.Update(personToBeEdited);
+                _peopleContext.SaveChanges();
+
+                addMessage = "Personen har redigerats!";
+                return RedirectToAction("People");
+            }
+            else
+            {
+                var personToBeEdited = _peopleContext.People.Find(inputEditModel.Id);
+
+                PeopleViewModel peopleViewModel = new PeopleViewModel();
+
+                peopleViewModel.Person = personToBeEdited;
+                peopleViewModel.AllCitiesList = _peopleContext.Cities.ToList();
+
+                return View(peopleViewModel);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVCData.Data;
 using MVCData.Models;
 using MVCData.ViewModels;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MVCData.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CountryController : Controller
     {
         public static string deleteAddCountryMessage = null;

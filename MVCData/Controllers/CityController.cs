@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCData.Data;
 using MVCData.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVCData.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CityController : Controller
     {
         public static string deleteAddCityMessage = null;
